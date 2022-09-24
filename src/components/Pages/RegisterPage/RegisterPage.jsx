@@ -1,10 +1,14 @@
 import React from "react"
 
+import { Navigate } from "react-router-dom";
+
 import { useState } from 'react';
 
 import { useSelector, useDispatch } from 'react-redux';
 
-import FormControl from '@mui/material/FormControl';
+import { getIsLoading, getError, getIsLogin } from "../../../Redux/Auth/authSelectors";
+
+import { signUp } from "../../../Redux/Auth/authOperation";
 
 import TextField from '@mui/material/TextField';
 
@@ -16,7 +20,9 @@ import style from 'components/Pages/RegisterPage/RegisterPage.module.css'
 
 export default function RegisterPage() {
 const dispatch = useDispatch();
-//   const isLoading = useSelector(authSelectors.getLoading);
+    const isLoading = useSelector(getIsLoading);
+    const { status, message } = useSelector(getError);
+    const isLogin = useSelector(getIsLogin);
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -38,61 +44,58 @@ const dispatch = useDispatch();
     
     const handleSubmit = e => {
     e.preventDefault();
-    // if (name.trim() === '' || email.trim() === '' || password.trim() === '') {
-    //   return toast.error('💩 Please fill in all fields!');
-    // } else if (password.length < 7) {
-    //   return toast.info('Passwords must be at least 7 characters long!');
-    // }
-    // dispatch(authOperations.register({ name, email, password }));
-    // setName('');
-    // setEmail('');
-    // setPassword('');
-  };
-    return <FormControl className={style.form}>
+    if (name.trim() === '' || email.trim() === '' || password.trim() === '') {
+      return toast.error('Please fill in all fields!');
+    } else if (password.length < 7) {
+      return toast.info('Passwords must be at least 7 characters long!');
+    }
+    dispatch(signUp({ name, email, password }));
+    setName('');
+    setEmail('');
+    setPassword('');
+    };
+    
+    if (isLogin) {
+        return <Navigate to="/contacts" />
+    }
+
+    return <form onSubmit={handleSubmit} className={style.form}>
         <TextField
         label="Name"
         variant="outlined"
-        color="secondary"
+        color="primary"
         type="text"
         name="name"
         value={name}
         onChange={handleChange}
-        className={style.textField}
+            className={style.textField}
+            required
       />
 
       <TextField
         label="Email"
         variant="outlined"
-        color="secondary"
+        color="primary"
         type="email"
         name="email"
         value={email}
         onChange={handleChange}
-        className={style.textField}
+            className={style.textField}
+            required
       />
 
       <TextField
         label="Password"
         variant="outlined"
-        color="secondary"
+        color="primary"
         type="password"
         name="password"
         value={password}
         onChange={handleChange}
-        className={style.textField}
+            className={style.textField}
+            required
         />
-        {/* {!isLoading && (
-        <Button
-          variant="contained"
-          color="secondary"
-          size="large"
-          type="submit"
-        >
-          Sign up
-        </Button>
-      )}
-
-      {isLoading && <LoaderComponent />} */}
+        {!isLoading && (
         <Button
           variant="contained"
           color="primary"
@@ -100,6 +103,10 @@ const dispatch = useDispatch();
           type="submit"
         >
           Sign up
-        </Button>
-    </FormControl>
+            </Button>
+      )}
+        {status && <p>{message}</p>}
+        {isLoading && <p>...Loading</p>}
+        
+    </form>
 };

@@ -14,9 +14,8 @@ export default function UserRoutes() {
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/register" element={<RegisterPage />} />
-        <Route path="/login" element={<LoginPage />}>
+        <Route path="/login" element={<LoginPage />}/>
           <Route path="contacts" element={<ContactPage />} />
-        </Route>
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </Suspense>
