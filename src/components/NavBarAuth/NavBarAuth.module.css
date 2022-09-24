@@ -1,0 +1,11 @@
+.link {
+    text-decoration: none;
+    color: black;
+}
+
+.link:not(:last-child) {
+    margin-right: 10px;
+}
+.link.active {
+    font-weight: bold;
+}

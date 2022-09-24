@@ -1,5 +1,10 @@
+
 .wrapper {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+}
+
+.toolbar{
+    margin-right: auto;
 }
