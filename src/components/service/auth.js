@@ -6,5 +6,14 @@ const instance = axios.create({
 
 export const signUp = async (data) => {
     const { data: result } = await instance.post("/users/signup", data);
+    instance.defaults.headers.common.authorization = `Bearer ${result.token}`
     return result;
-}
+};
+
+export const login = async (data) => {
+    const { data: result } = await instance.post("/users/login", data);
+    instance.defaults.headers.common.authorization = `Bearer ${result.token}`
+    return result;
+};
+
+export default instance;
