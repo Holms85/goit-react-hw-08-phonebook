@@ -1,19 +1,16 @@
 import { useState } from 'react';
-import { Navigate } from "react-router-dom";
 import { useSelector, useDispatch } from 'react-redux';
-import { getIsLoading, getError, getIsLogin } from '../../../Redux/Auth/authSelectors';
-import { login } from "../../../Redux/Auth/authOperation";
+import { getIsLoading, getError } from '../../../Redux/Auth/authSelectors';
+import { login } from '../../../Redux/Auth/authOperation';
 import { toast } from 'react-toastify';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import style from '../LoginPage/LoginPage.module.css';
 
-
 export default function LoginPage() {
   const dispatch = useDispatch();
   const isLoading = useSelector(getIsLoading);
   const { status, message } = useSelector(getError);
-  const isLogin = useSelector(getIsLogin);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
@@ -44,12 +41,8 @@ export default function LoginPage() {
     setPassword('');
   };
 
-  if (isLogin) {
-        return <Navigate to="/contacts" />
-    }
-
   return (
-    <form onSubmit={handleSubmit} className={style.form} >
+    <form onSubmit={handleSubmit} className={style.form}>
       <TextField
         label="Email"
         variant="outlined"
@@ -59,6 +52,7 @@ export default function LoginPage() {
         value={email}
         onChange={handleChange}
         className={style.textField}
+        required
       />
 
       <TextField
@@ -70,20 +64,16 @@ export default function LoginPage() {
         value={password}
         onChange={handleChange}
         className={style.textField}
+        required
       />
 
       {!isLoading && (
-        <Button
-          variant="contained"
-          color="primary"
-          size="large"
-          type="submit"
-        >
+        <Button variant="contained" color="primary" size="large" type="submit">
           Log in
         </Button>
       )}
-{status && <p>{message}</p>}
+      {status && <p>{message}</p>}
       {isLoading && <p>...Loading</p>}
     </form>
   );
-};
+}

@@ -1,15 +1,18 @@
-import style from 'components/App.module.css';
-// import ContactForm from 'components/ContactForm/ContactForm';
-// import Filter from 'components/Filter/Filter';
-// import ContactList from 'components/ContactList/ContactList';
 import NavBar from './NavBar/NavBar';
 import UserRoutes from 'Routes/Routes';
+import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { currentUser } from 'Redux/Auth/authOperation';
 
 export default function App() {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(currentUser());
+  }, [dispatch]);
   return (
     <div>
-      <NavBar/>
-      <UserRoutes/>
+      <NavBar />
+      <UserRoutes />
     </div>
   );
 }

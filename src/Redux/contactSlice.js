@@ -1,7 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { fetchContacts, addContact, removeContact } from './contacts-operation';
 
-
 const initialState = {
   items: [],
   filter: '',
@@ -17,7 +16,7 @@ const contactSlice = createSlice({
     },
   },
   extraReducers: {
-    [fetchContacts.pending]: (store) => {
+    [fetchContacts.pending]: store => {
       store.loading = true;
       store.error = null;
     },
@@ -29,19 +28,19 @@ const contactSlice = createSlice({
       store.loading = false;
       store.error = payload;
     },
-    [addContact.pending]: (store) => {
+    [addContact.pending]: store => {
       store.loading = true;
       store.error = null;
     },
     [addContact.fulfilled]: (store, { payload }) => {
       store.loading = false;
-      store.items.push(payload)
+      store.items.push(payload);
     },
     [addContact.rejected]: (store, { payload }) => {
       store.loading = false;
       store.error = payload;
     },
-    [removeContact.pending]: (store) => {
+    [removeContact.pending]: store => {
       store.loading = true;
       store.error = null;
     },
@@ -53,7 +52,7 @@ const contactSlice = createSlice({
       store.loading = false;
       store.error = payload;
     },
-  }
+  },
   // reducers: {
   //   addContacts(state, { payload }) {
   //     state.items.push(payload);
@@ -66,8 +65,7 @@ const contactSlice = createSlice({
   //   },
   // },
 });
-export const { filterContact } =
-  contactSlice.actions;
+export const { filterContact } = contactSlice.actions;
 
 export default contactSlice.reducer;
 

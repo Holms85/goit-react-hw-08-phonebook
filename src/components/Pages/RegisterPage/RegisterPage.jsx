@@ -1,33 +1,29 @@
-import React from "react"
-
-import { Navigate } from "react-router-dom";
+import React from 'react';
 
 import { useState } from 'react';
 
 import { useSelector, useDispatch } from 'react-redux';
 
-import { getIsLoading, getError, getIsLogin } from "../../../Redux/Auth/authSelectors";
+import { getIsLoading, getError } from '../../../Redux/Auth/authSelectors';
 
-import { signUp } from "../../../Redux/Auth/authOperation";
+import { signUp } from '../../../Redux/Auth/authOperation';
 
 import TextField from '@mui/material/TextField';
 
 import Button from '@mui/material/Button';
 
 import { toast } from 'react-toastify';
-import style from 'components/Pages/RegisterPage/RegisterPage.module.css'
-
+import style from 'components/Pages/RegisterPage/RegisterPage.module.css';
 
 export default function RegisterPage() {
-const dispatch = useDispatch();
-    const isLoading = useSelector(getIsLoading);
-    const { status, message } = useSelector(getError);
-    const isLogin = useSelector(getIsLogin);
+  const dispatch = useDispatch();
+  const isLoading = useSelector(getIsLoading);
+  const { status, message } = useSelector(getError);
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-    const handleChange = e => {
+  const handleChange = e => {
     const { name, value } = e.target;
 
     switch (name) {
@@ -40,9 +36,9 @@ const dispatch = useDispatch();
       default:
         return;
     }
-    };
-    
-    const handleSubmit = e => {
+  };
+
+  const handleSubmit = e => {
     e.preventDefault();
     if (name.trim() === '' || email.trim() === '' || password.trim() === '') {
       return toast.error('Please fill in all fields!');
@@ -53,14 +49,11 @@ const dispatch = useDispatch();
     setName('');
     setEmail('');
     setPassword('');
-    };
-    
-    if (isLogin) {
-        return <Navigate to="/contacts" />
-    }
+  };
 
-    return <form onSubmit={handleSubmit} className={style.form}>
-        <TextField
+  return (
+    <form onSubmit={handleSubmit} className={style.form}>
+      <TextField
         label="Name"
         variant="outlined"
         color="primary"
@@ -68,8 +61,8 @@ const dispatch = useDispatch();
         name="name"
         value={name}
         onChange={handleChange}
-            className={style.textField}
-            required
+        className={style.textField}
+        required
       />
 
       <TextField
@@ -80,8 +73,8 @@ const dispatch = useDispatch();
         name="email"
         value={email}
         onChange={handleChange}
-            className={style.textField}
-            required
+        className={style.textField}
+        required
       />
 
       <TextField
@@ -92,21 +85,16 @@ const dispatch = useDispatch();
         name="password"
         value={password}
         onChange={handleChange}
-            className={style.textField}
-            required
-        />
-        {!isLoading && (
-        <Button
-          variant="contained"
-          color="primary"
-          size="large"
-          type="submit"
-        >
+        className={style.textField}
+        required
+      />
+      {!isLoading && (
+        <Button variant="contained" color="primary" size="large" type="submit">
           Sign up
-            </Button>
+        </Button>
       )}
-        {status && <p>{message}</p>}
-        {isLoading && <p>...Loading</p>}
-        
+      {status && <p>{message}</p>}
+      {isLoading && <p>...Loading</p>}
     </form>
-};
+  );
+}
